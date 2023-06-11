@@ -6,12 +6,15 @@ const path = require('path');
 const directoryPath="./dist";
 const todayDate = new Date();
 
-const copyright = `/**
-* Copyright of JV ${todayDate.getFullYear()}
+const copyrightComment = `/*
+Copyright of JV ${todayDate.getFullYear()}
 */
 `;
 
-console.log(copyright);
+const copyrightHtmlComment= `<!-- Copyright of JV ${todayDate.getFullYear()} --> 
+`;
+
+console.log(copyrightComment);
 let totalDir = 0;
 let totolFiles = 0;
 
@@ -31,16 +34,42 @@ function addCopyRights(directoryPath)
         {
             //It is file add copyright
             const extensionOfFile = path.extname(currentPath);
-            if(extensionOfFile == ".js")
+            switch (extensionOfFile)
             {
-                console.log("Found javascript file");
+                case ".js":
+                case ".css":
+                case ".scss":
+                    appendCopyrightComment(copyrightComment, currentPath);
+                    break;
+                case ".html":
+                    appendCopyrightComment(copyrightHtmlComment, currentPath);
             }
             totolFiles++;
         }
     });
 }
 
-addCopyRights(directoryPath);
+function appendCopyrightComment(copyrightComment, currentPath)
+{
+    fs.readFile(currentPath, 'utf-8', (err, data) => {
+        if(err)
+        {
+            console.log(err);
+            return;
+        }
 
-console.log("total files are" + totolFiles);
-console.log("total directories are " +totalDir);
+        const updatedData = copyrightComment + data;
+
+        fs.writeFile(currentPath, updatedData, 'utf-8', (err)=>{
+            if(err)
+            {
+                console.log(err);
+                return;
+            }
+            console.log("Changed the data");
+        })
+    })
+    console.log("Found javascript file");
+}
+
+addCopyRights(directoryPath);
