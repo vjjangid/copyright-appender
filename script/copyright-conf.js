@@ -66,10 +66,8 @@ function appendCopyrightComment(copyrightComment, currentPath)
                 console.log(err);
                 return;
             }
-            console.log("Changed the data");
         })
     })
-    console.log("Found javascript file");
 }
 
 addCopyRights(directoryPath);
