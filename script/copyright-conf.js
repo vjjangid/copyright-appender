@@ -6,8 +6,8 @@ const path = require('path');
 const directoryPath="./dist";
 const todayDate = new Date();
 
-const copyrightComment = `/*
-Copyright of JV ${todayDate.getFullYear()}
+const copyrightComment = `/**
+* Copyright of JV ${todayDate.getFullYear()}
 */
 `;
 
